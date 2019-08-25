@@ -1,0 +1,175 @@
+* Eval
+** Discord hook
+#+name: roll
+#+header: :var num=1 dice=20 user="lathie" discord=1
+#+begin_src python
+from dhooks import Webhook, Embed
+import random
+
+if num < 1:
+    return "Failed"
+elif num == 1:
+    what = 'd' + str(dice)
+    total = random.randint(1, dice)
+    summary = str(total)
+else:
+    what = str(num) + 'd' + str(dice)
+    rolls = []
+    for x in range(0, num):
+        rolls.append(random.randint(1, dice))
+
+    summary = (str(rolls) + ' -> ' + str(sum(rolls)))
+
+if discord == 1:
+
+    hook = Webhook('') #Insert your webhook here
+    embed = Embed(
+        description='Rolling some dice!',
+        color=0x1e0f3,
+        timestamp='now'
+        )
+
+    embed.set_author(name=user)
+    embed.add_field(name='Dice', value=str(what))
+    embed.add_field(name='Result', value=summary)
+
+    hook.send(embed=embed)
+
+return summary
+#+end_src
+
+#+call: roll(dice=6, num=2)
+
+#+RESULTS:
+: [2 (\, 3)]
+
+C-c C-c to execute
+#+call: roll(dice=3)
+#+call: roll(dice=4)
+#+call: roll(dice=5)
+#+call: roll(dice=6)
+#+call: roll(dice=8)
+#+call: roll(dice=10)
+#+call: roll(dice=12)
+#+call: roll(dice=20)
+#+call: roll(dice=24)
+
+#+RESULTS:
+: None
+
+
+* Brother Thalides                                                :character:
+** Backstory Info
+  Second son of a Knight, ran away from home
+  Had a religious experience and became a lay priest
+  Became unusually stubborn
+
+  Has a religious objection to honest work
+
+  Exiled from his church for stealing candles (among other things)
+  Sent on a religious expedition
+
+** Character Stats
+
+|------+-------+-----+---+-------+-----|
+| Stat | Value | Mod | # | Saves | Mod |
+|------+-------+-----+---+-------+-----|
+| STR  |     9 |   0 | # | AC    |   0 |
+| AGI  |    12 |   0 | # | REFX  |   0 |
+| STA  |    13 |   1 | # | FORT  |   1 |
+| PER  |    13 |   1 | # | WILL  |   1 |
+| LUC  |    13 |   1 | # | LUCK  |   1 |
+| INT  |    11 |   0 | # |       |   0 |
+|------+-------+-----+---+-------+-----|
+#+TBLFM: $6=$3
+
+|-------+-----------+---------------|
+| Other | Max Value | Current Value |
+|-------+-----------+---------------|
+| HP    |         7 |             7 |
+| EXP   |         0 |             0 |
+| Luck  |        13 |            11 |
+| Spd   |        30 |               |
+|-------+-----------+---------------|
+
+** Skills
+
+|-----------------------+-------+------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| Skill                 |   Mod | Stat |     |     |     |     |     |     |     |     |     |     |
+|-----------------------+-------+------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| Persuasion            |     1 |    1 |     |     |     |     |     |     |     |     |     |     |
+| Religion              |     1 |    1 |     |     |     |     |     |     |     |     |     |     |
+|-----------------------+-------+------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| Thief Skills          |   Mod | Stat |   1 |   2 |   3 |   4 |   5 |   6 |   7 |   8 |   9 |  10 |
+|-----------------------+-------+------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+| Luck Die              |    d3 |    0 |  d3 |  d4 |  d5 |  d6 |  d7 |  d8 | d10 | d12 | d14 | d16 |
+| Backstab              |     0 |    0 |   0 |   1 |   2 |   3 |   4 |   5 |   6 |   7 |   8 |   9 |
+| Sneak Silently (AGI)  |     3 |    0 |   3 |   5 |   7 |   8 |   9 |  11 |  12 |  13 |  14 |  15 |
+| Hide in Shadows (AGI) |     1 |    0 |   1 |   3 |   5 |   7 |   8 |   9 |  10 |  11 |  12 |  13 |
+| Pickpocket (AGI)      |     3 |    0 |   3 |   5 |   7 |   8 |   9 |  11 |  12 |  13 |  14 |  15 |
+| Climb Sheer (AGI)     |     3 |    0 |   3 |   5 |   7 |   8 |   9 |  11 |  12 |  13 |  14 |  15 |
+| Pick lock (AGI)       |     1 |    0 |   1 |   3 |   5 |   7 |   8 |   9 |  10 |  11 |  12 |  13 |
+| Find trap (INT)       |     2 |    1 |   1 |   3 |   5 |   7 |   8 |   9 |  10 |  11 |  12 |  13 |
+| Disable trap (AGI)    |     1 |    0 |   1 |   3 |   5 |   7 |   8 |   9 |  10 |  11 |  12 |  13 |
+| Forge document (AGI)  |     1 |    0 |   1 |   3 |   5 |   7 |   8 |   9 |  10 |  11 |  12 |  13 |
+| Disguise Self (PER)   |     1 |    1 |   0 |   0 |   1 |   2 |   3 |   4 |   5 |   6 |   7 |   8 |
+| Read languages (INT)  |     1 |    1 |   0 |   1 |   2 |   3 |   4 |   5 |   6 |   7 |   8 |   9 |
+| Handle Poison         |     0 |    0 |   0 |   0 |   1 |   2 |   3 |   4 |   5 |   6 |   7 |   8 |
+| Cast Scroll (INT)     | 1+d12 |    1 | d12 | d12 | d14 | d14 | d16 | d16 | d20 | d20 | d20 | d20 |
+|-----------------------+-------+------+-----+-----+-----+-----+-----+-----+-----+-----+-----+-----|
+#+TBLFM: $2=($3+$4)
+
+** Inventory?
+
+|-----------+----------+-----|
+| Equipment | Info     | Mod |
+|-----------+----------+-----|
+| Dagger    | 1d4/1d10 |   0 |
+|-----------+----------+-----|
+
+|---------------------------|
+| INVENTORY                 |
+|---------------------------|
+| 50 ft of Twine Cord       |
+| Strong Magnet             |
+| Bouncy Rubber Ball        |
+| Cigar Cutter              |
+| Handful of Magnesium      |
+|---------------------------|
+| Drinking Vessel Horn      |
+|---------------------------|
+| Jar of Pickled Vegetables |
+|---------------------------|
+| Lantern with no oil       |
+|---------------------------|
+| Dagger                    |
+|---------------------------|
+
+|--------+---|
+| Money  |   |
+|--------+---|
+| Gold   | 0 |
+| Silver | 0 |
+| Copper | 0 |
+|--------+---|
+
+** Misc
+*** Languages:
+    Common
+*** Racial Traits
+    Human
+
+
+* Brin (Barron) <No Last Name>                                    :character:
+  Wizard
+  Has learned all he thinks he can learn
+* Lida KettleWhistle                                              :character:
+  Halfling
+  Goat liberator
+  Lost an Ear
+* Ixchel                                                          :character:
+  Sorceror
+  Looking for Arcane Secrets
+* Aang Wasageer
+  Prisoner
+  Huge nerd
